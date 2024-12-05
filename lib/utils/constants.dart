@@ -1,0 +1,11 @@
+import 'package:flutter/material.dart';
+const prefixWeatherIconUrl = 'https://openweathermap.org/img/wn/';
+const suffixWeatherIconUrl = '@2x.png';
+const weatherApiKey = 'e35bba64876baf26b20d75c4485fedb3';
+const degree = '\u00B0';
+const celsius = 'C';
+const fahrenheit = 'F';
+const String metric = 'metric';
+const String imperial = 'imperial';
+const cities = ['Cairo', 'Chittagong', 'Dhaka', 'Jakarta', 'London', 'Los Angeles', 'Moscow', 'New York', 'Sydney','Tokyo'];
+const cardBackgroundColor = Color.fromARGB(255, 24, 56, 98);

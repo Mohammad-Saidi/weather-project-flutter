@@ -1,3 +1,5 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weather_flutter_project/pages/settings.dart';
 import 'package:weather_flutter_project/utils/helper.dart';
 import 'package:weather_flutter_project/utils/location_service.dart';
@@ -19,6 +21,54 @@ class WeatherHomePage extends StatefulWidget {
 
 class _WeatherHomePageState extends State<WeatherHomePage> {
   late WeatherProvider provider;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkRequirements();
+  }
+
+  Future<void> checkRequirements() async {
+    bool isInternetAvailable = await checkInternet();
+    bool isLocationEnabled = await checkLocationPermission();
+
+    if (!isInternetAvailable || !isLocationEnabled) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Requirements Needed'),
+          content: Text(
+            '${!isInternetAvailable ? "Please enable Internet.\n" : ""}'
+                '${!isLocationEnabled ? "Please allow Location access." : ""}',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                checkRequirements(); // Check again after user tries to fix
+              },
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<bool> checkInternet() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none;
+  }
+
+  Future<bool> checkLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    return permission == LocationPermission.whileInUse || permission == LocationPermission.always;
+  }
+
 
   @override
   void didChangeDependencies() {
@@ -74,7 +124,6 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
       body: Consumer<WeatherProvider>(
         builder: (context, provider, child) => provider.hasDataLoaded
             ? SingleChildScrollView(
-
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -45,6 +45,9 @@ dependencies:
   auto_size_text:
   hive:
   hive_flutter:
+  cached_network_image:
+  connectivity_plus:
+  permission_handler:
 
 
 dev_dependencies:
@@ -58,7 +61,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
   hive_generator:
-  cached_network_image:
   flutter_native_splash: 2.4.1
 
 
@@ -108,4 +110,4 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 flutter_native_splash:
   color: "#121212"
-  image: "images/sm_technology_image.png"
+  image: "images/scaleUp.png"
